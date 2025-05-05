@@ -1,0 +1,6 @@
+@FriendTagBackend_HostAddress = http://localhost:5275
+
+GET {{FriendTagBackend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
