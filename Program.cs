@@ -46,6 +46,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+
 var jwtKey = builder.Configuration["Jwt:Key"];
 var jwtIssuer = builder.Configuration["Jwt:Issuer"];
 var jwtAudience = builder.Configuration["Jwt:Audience"];
@@ -54,6 +55,7 @@ if (string.IsNullOrEmpty(jwtKey) || string.IsNullOrEmpty(jwtIssuer) || string.Is
 {
     throw new InvalidOperationException("Jwt configuration is missing in appsettings.json or environment variables.");
 }
+
 
 builder.Services.AddAuthentication(options =>
 {

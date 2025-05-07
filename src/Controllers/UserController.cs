@@ -112,19 +112,53 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("user")]
-    public async Task<IActionResult> GetById([FromQuery] Guid userId){
-        var id = new UserId(userId);
-        var user = await _dbContext.Users.FirstOrDefaultAsync(x=>x.Id == id);
-        if(user is null) throw new CustomException("User not found.");
+    [Authorize]
+    public async Task<IActionResult> GetById([FromQuery] Guid userId)
+    {
+        var currentUser = await _userService.CurrentUser(User);
+        var targetUserId = new UserId(userId);
+
+        var isBlocked = await _dbContext.Blocked.AnyAsync(b =>
+            (b.Blocker == currentUser.Id && b.BlockedPerson == targetUserId) ||
+            (b.Blocker == targetUserId && b.BlockedPerson == currentUser.Id));
+
+        if (isBlocked)
+            return Forbid("You are blocked or have blocked this user.");
+
+        var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == targetUserId);
+        if (user is null) throw new CustomException("User not found.");
+
         return Ok(user);
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetAllUsers()
     {
-        var users = await _dbContext.Users.ToListAsync();
-        return Ok(users);
+        var currentUser = await _userService.CurrentUser(User);
+        var currentUserId = currentUser.Id;
+
+        var blockedUsers = await _dbContext.Blocked
+            .Where(b => b.Blocker == currentUserId || b.BlockedPerson == currentUserId)
+            .ToListAsync();
+
+        var usersBlockingMe = blockedUsers
+            .Where(b => b.BlockedPerson == currentUserId)
+            .Select(b => b.Blocker)
+            .ToHashSet();
+
+        var usersBlockedByMe = blockedUsers
+            .Where(b => b.Blocker == currentUserId)
+            .Select(b => b.BlockedPerson)
+            .ToHashSet();
+
+        var allUsers = await _dbContext.Users
+            .Where(u => !usersBlockingMe.Contains(u.Id) && !usersBlockedByMe.Contains(u.Id))
+            .ToListAsync();
+
+        return Ok(allUsers);
     }
+
 }
 
 

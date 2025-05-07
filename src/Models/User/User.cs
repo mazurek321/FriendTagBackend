@@ -31,7 +31,7 @@ public class User
     public double Latitude {get; private set;} 
     public double Longitude {get; private set;} 
     public String? ProfilePicture {get; private set;}
-    public List<String >ImageUrls { get; private set; } 
+    public List<String>?ImageUrls { get; private set; } 
     public String? Description {get; private set; }
     public DateTime CreatedAt{ get; private set; }
 

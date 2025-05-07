@@ -44,6 +44,15 @@ public class BlockController : ControllerBase
         return Ok("Person blocked.");
     }
 
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> GetBlockedUsers()
+    {
+        var user = await _userService.CurrentUser(User);
+        var blockedUsers = await _dbContext.Blocked.Where(x=>x.Blocker == user.Id).ToListAsync();
+        return Ok(blockedUsers);
+    }
+
     [HttpDelete]
     [Authorize]
     public async Task<IActionResult> UnblockPerson([FromQuery] Guid personId)
@@ -59,5 +68,7 @@ public class BlockController : ControllerBase
 
         return Ok("Person unblocked.");
     }
+
+
 
 }

@@ -15,4 +15,5 @@ public record UserId
     }
 
     public Guid Value {get; }
+    public UserId() => Value = Guid.Empty;
 }

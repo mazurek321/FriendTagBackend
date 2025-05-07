@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using FriendTagBackend.src.Models.User;
 using FriendTagBackend.src.Models.Friendship;
 using FriendTagBackend.src.Models.Blocked;
+using FriendTagBackend.src.Models.Event;
+using FriendTagBackend.src.Models.Invitation;
 
 namespace FriendTagBackend.src.Data;
 
@@ -13,6 +15,9 @@ public class ApiDbContext : DbContext
      public DbSet<User> Users { get; set; }
      public DbSet<Friendship> Friendship { get; set; }
      public DbSet<Blocked> Blocked { get; set; }
+     public DbSet<Event> Events { get; set; }
+     public DbSet<EventAttendee> EventAttendees { get; set; }
+     public DbSet<Invitation> Invitations { get; set; }
 
       protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -61,6 +66,39 @@ public class ApiDbContext : DbContext
             
             builder.Property(x=>x.BlockedPerson).HasConversion(x=>x.Value, value=>new UserId(value));
         });
-    }
 
+        modelBuilder.Entity<Event>(builder =>
+        {
+            builder.HasKey(x=>x.Id);
+
+            builder.Property(x=>x.OwnerId).HasConversion(x=>x.Value, value=>new UserId(value));
+
+        });
+
+         modelBuilder.Entity<EventAttendee>(builder =>
+        {
+            builder.HasKey(x => new { x.EventId, x.UserId });
+        
+            builder.Property(x => x.UserId).HasConversion(x => x.Value, value => new UserId(value));
+
+            builder.HasOne(ea => ea.Event)
+                .WithMany(e => e.Attendants)
+                .HasForeignKey(ea => ea.EventId);
+
+            builder.HasOne(ea => ea.User)
+                .WithMany()
+                .HasForeignKey(ea => ea.UserId);
+                                   
+        });
+
+         modelBuilder.Entity<Invitation>(builder =>
+        {
+            builder.HasKey(x=>x.Id);
+        
+            builder.Property(x => x.InvitedPerson).HasConversion(x => x.Value, value => new UserId(value));
+                        
+        });
+
+
+    }
 }
