@@ -5,7 +5,8 @@ public class User
     public User(){}
     
     private User(
-        UserId id, Email email, Name name, LastName lastname, Password password, 
+        UserId id, Email email, Name name, LastName lastname, Password password,
+        DateOnly birthday, 
         double latitude, double longitude, String? profilePicture, String? desc,
         Phone phone, DateTime createdAt
     ){
@@ -14,6 +15,7 @@ public class User
         Name = name;
         LastName = lastname;
         Password = password;
+        Birthday = birthday;
         Latitude = latitude;
         Longitude = longitude;
         ProfilePicture = profilePicture;
@@ -28,6 +30,7 @@ public class User
     public LastName LastName {get; private set; }
     public Password Password {get; private set; }
     public Phone Phone { get; private set; }
+    public DateOnly Birthday { get; private set; }
     public double Latitude {get; private set;} 
     public double Longitude {get; private set;} 
     public String? ProfilePicture {get; private set;}
@@ -37,11 +40,12 @@ public class User
 
     public static User NewUser(
         Email email, Name name, LastName lastname, Password password,
+        DateOnly birthday,
         double latitude, double longitude, String? profilePicture, String? desc,
         Phone phone, DateTime createdAt
     ){
         var id = new UserId(Guid.NewGuid());
-        return new User(id, email, name, lastname, password, latitude, 
+        return new User(id, email, name, lastname, password, birthday, latitude, 
                         longitude, profilePicture, desc, phone, createdAt);
     }
 

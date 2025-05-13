@@ -5,7 +5,7 @@ namespace FriendTagBackend.src.Models.User;
 public record Email
 {
     public Email(string value){
-        if(string.IsNullOrEmpty(value) || !checkValidation(value)) throw new CustomException("Invalid email.");
+        if(string.IsNullOrEmpty(value)) throw new CustomException("Invalid email.");
         Value = value;
     }
 

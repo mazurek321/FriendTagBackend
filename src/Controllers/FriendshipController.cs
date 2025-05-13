@@ -83,10 +83,10 @@ public class FriendShipController : ControllerBase
 
     [HttpPut]
     [Authorize]
-    public async Task<IActionResult> ChangeFriendshipStatus(UpdateStatusDto updateDto)
+    public async Task<IActionResult> ChangeFriendshipStatus([FromQuery] Guid userId, UpdateStatusDto updateDto)
     {
         var user = await _userService.CurrentUser(User);
-        var friendId = new UserId(updateDto.FriendId);
+        var friendId = new UserId(userId);
 
         var friendship = await GetFriendship(user.Id, friendId);
 

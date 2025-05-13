@@ -6,7 +6,7 @@ namespace FriendTagBackend.src.Models.User;
 public record Password
 {
     public Password(string value){
-        if(string.IsNullOrWhiteSpace(value) || value.Length is > 200 or < 5) throw new CustomException("Invalid id.");
+        if(string.IsNullOrWhiteSpace(value)) throw new CustomException("Invalid id.");
         Value = value;
     }
     

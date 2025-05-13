@@ -233,6 +233,7 @@ namespace FriendTagBackend.src.Controllers
             return new GetEventDto
             {
                 Id = e.Id,
+                OwnerId = e.OwnerId.Value,
                 Address = (e.Private && !isAttendant) ? null : e.Address,
                 City = (e.Private && !isAttendant) ? null : e.City,
                 Latitude = (e.Private && !isAttendant) ? 0 : e.Latitude,

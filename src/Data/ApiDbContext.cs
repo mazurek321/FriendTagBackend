@@ -4,6 +4,7 @@ using FriendTagBackend.src.Models.Friendship;
 using FriendTagBackend.src.Models.Blocked;
 using FriendTagBackend.src.Models.Event;
 using FriendTagBackend.src.Models.Invitation;
+using FriendTagBackend.src.Models.Message;
 
 namespace FriendTagBackend.src.Data;
 
@@ -18,6 +19,7 @@ public class ApiDbContext : DbContext
      public DbSet<Event> Events { get; set; }
      public DbSet<EventAttendee> EventAttendees { get; set; }
      public DbSet<Invitation> Invitations { get; set; }
+     public DbSet<Message> Messages { get; set; }
 
       protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -98,6 +100,17 @@ public class ApiDbContext : DbContext
             builder.Property(x => x.InvitedPerson).HasConversion(x => x.Value, value => new UserId(value));
                         
         });
+
+         modelBuilder.Entity<Message>(builder =>
+        {
+            builder.HasKey(x=>x.Id);
+            
+            builder.Property(x=>x.SenderId).HasConversion(x=>x.Value, value=>new UserId(value));
+            
+            builder.Property(x=>x.ReceiverId).HasConversion(x=>x.Value, value=>new UserId(value));
+            
+        });
+
 
 
     }

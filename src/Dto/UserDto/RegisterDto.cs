@@ -21,6 +21,7 @@ public record RegisterDto
     public string ConfirmPassword {get; set;}
 
     [Required(ErrorMessage = "Phone number is required.")]
+    public DateOnly Birthday { get; set; }
     public string Phone {get; set;}
 
     public string Latitude {get; set;}

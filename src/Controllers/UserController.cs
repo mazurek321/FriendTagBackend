@@ -55,6 +55,7 @@ public class UsersController : ControllerBase
             name,
             lastname,
             hashedPassword,
+            userDto.Birthday,
             latitude.Value,
             longitude.Value,
             userDto?.ProfilePicture,

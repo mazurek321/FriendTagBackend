@@ -7,6 +7,7 @@ public record UserDto
     public string Name {get; set; }
     public string LastName {get; set; }
     public string Phone {get; set; }
+    public string Birthday {get; set;}
     public string Latitude {get; set;}
     public string Longitude {get; set;}
     public string? ProfilePicture {get; set;}
