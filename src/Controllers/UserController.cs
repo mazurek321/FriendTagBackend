@@ -33,8 +33,8 @@ public class UsersController : ControllerBase
         _userService = userService;
     }
 
-    [HttpPost("register", Name="Create new user")]
-    public async Task<IActionResult>Signup([FromBody] RegisterDto userDto)
+    [HttpPost("register", Name = "Create new user")]
+    public async Task<IActionResult> Signup([FromBody] RegisterDto userDto)
     {
         var email = new Email(userDto.Email);
         var name = new Name(userDto.Name);
@@ -45,11 +45,11 @@ public class UsersController : ControllerBase
         var latitude = double.TryParse(userDto.Latitude, out var lat) ? (double?)lat : null;
         var longitude = double.TryParse(userDto.Longitude, out var lon) ? (double?)lon : null;
 
-        var exists = await _dbContext.Users.AnyAsync(x=>x.Email == email);
-        if(exists) throw new CustomException("User with this email already exists.");
+        var exists = await _dbContext.Users.AnyAsync(x => x.Email == email);
+        if (exists) throw new CustomException("User with this email already exists.");
 
         var hashedPassword = new Password(password.CalculateMD5Hash(password.Value));
-        
+
         var user = Models.User.User.NewUser(
             email,
             name,
@@ -70,8 +70,9 @@ public class UsersController : ControllerBase
         return Ok(user);
     }
 
-    [HttpPost("login", Name="Login")]
-    public async Task<IActionResult> Login(LoginDto userDto){
+    [HttpPost("login", Name = "Login")]
+    public async Task<IActionResult> Login(LoginDto userDto)
+    {
         var email = new Email(userDto.Email);
         var password = new Password(userDto.Password);
 
@@ -80,7 +81,8 @@ public class UsersController : ControllerBase
         var user = await _dbContext.Users
             .FirstOrDefaultAsync(x => x.Email == email && x.Password == hashedPassword);
 
-        if(user != null){
+        if (user != null)
+        {
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]),
@@ -100,14 +102,15 @@ public class UsersController : ControllerBase
             );
 
             string tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
-            return Ok(tokenValue);   
+            return Ok(tokenValue);
         }
         return Unauthorized();
     }
 
-     [HttpGet("me")]
+    [HttpGet("me")]
     [Authorize]
-    public async Task<IActionResult> GetMe(){
+    public async Task<IActionResult> GetMe()
+    {
         var user = await _userService.CurrentUser(User);
         return Ok(user);
     }
@@ -154,11 +157,41 @@ public class UsersController : ControllerBase
             .ToHashSet();
 
         var allUsers = await _dbContext.Users
-            .Where(u => !usersBlockingMe.Contains(u.Id) && !usersBlockedByMe.Contains(u.Id))
+            .Where(u => !usersBlockingMe.Contains(u.Id) && !usersBlockedByMe.Contains(u.Id) && u.Id != currentUserId)
             .ToListAsync();
 
         return Ok(allUsers);
     }
+
+    [HttpPut("picture")]
+    [Authorize]
+    public async Task<IActionResult> UpdateProfilePicture([FromQuery] String url)
+    {
+        if (url is null) throw new CustomException("Image is null.");
+
+        var currentUser = await _userService.CurrentUser(User);
+
+        currentUser.UpdateProfilePicture(url);
+
+        return Ok();
+
+    }
+    
+
+    [HttpPut("location")]
+    [Authorize]
+    public async Task<IActionResult> UpdateLocation([FromQuery] double latitude, double longitude)
+    {
+        if (latitude == null || longitude == null) throw new CustomException("Error.");
+
+        var currentUser = await _userService.CurrentUser(User);
+
+        currentUser.UpdateLocation(latitude, longitude);
+
+        return Ok();
+
+    }
+
 
 }
 

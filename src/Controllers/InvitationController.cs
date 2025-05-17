@@ -42,6 +42,7 @@ public class InvitationController : ControllerBase
 
          if(_event.OwnerId != user.Id) throw new CustomException("You can't invite people.");
 
+
          var request = Invitation.SendInvitation(eventId, guest);
 
          _dbContext.Invitations.AddAsync(request);
@@ -83,8 +84,6 @@ public class InvitationController : ControllerBase
             .FirstOrDefaultAsync(x => x.Id == Id && x.InvitedPerson == currentUser.Id);
 
         if (invitation == null) throw new CustomException("Invitation not found.");
-        if (invitation.Status != Invitation.InvitationStatus.Sent)
-            throw new CustomException("Invalid invitation status for response.");
 
         invitation.UpdateInvitation(status);
 

@@ -75,6 +75,7 @@ public class FriendShipController : ControllerBase
                 ((x.User1 == user.Id)
                 ||
                 (x.User2 == user.Id))
+                && x.RequestSender != user.Id
                 && x.Status == Friendship.FStatus.Pending
         ).ToListAsync();
 

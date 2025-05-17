@@ -6,7 +6,7 @@ public class Message
 { 
     public Message(){}
     private Message(Guid id, UserId senderId, UserId receiverId, String content,
-                    DateTime sentAt, /*IFormFile? imageUrl*/ double? latitude, double? longitude,
+                    DateTime sentAt, String? imageUrl, double? latitude, double? longitude,
                     User.User sender, User.User receiver
     )
     {
@@ -15,7 +15,7 @@ public class Message
         ReceiverId = receiverId;
         Content = content;
         SentAt = sentAt;
-        // ImageUrl = imageUrl;
+        ImageUrl = imageUrl;
         Latitude = latitude;
         Longitude = longitude;
         Sender = sender;
@@ -26,17 +26,17 @@ public class Message
     public UserId ReceiverId { get; private set; }
     public String Content { get; private set; }
     public DateTime SentAt {get; private set; }
-    // public IFormFile? ImageUrl { get; private set; }
+    public String? ImageUrl { get; private set; }
     public double? Latitude { get; private set; }
     public double? Longitude { get; private set; }
     public User.User Sender { get; private set; }
     public User.User Receiver { get; private set; }
 
     public static Message NewMessage(UserId senderId, UserId receiverId, String content,
-                    DateTime sentAt, /*IFormFile? imageUrl*/ double? latitude, double? longitude,
+                    DateTime sentAt, String? imageUrl, double? latitude, double? longitude,
                     User.User sender, User.User receiver)
     {
-        return new Message(Guid.NewGuid(), senderId, receiverId, content, sentAt, /*imageUrl*/
+        return new Message(Guid.NewGuid(), senderId, receiverId, content, sentAt, imageUrl,
                                             latitude, longitude, sender, receiver); 
     }
 }

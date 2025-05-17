@@ -24,19 +24,20 @@ namespace FriendTagBackend.src.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> SendMessage([FromQuery] Guid userId, SendMessageDto dto)
+        public async Task<IActionResult> SendMessage(
+                [FromQuery] Guid userId,
+                [FromBody] SendMessageDto dto)
         {
             var user = await _userService.CurrentUser(User);
             var receiverId = new UserId(userId);
             var receiver = await _dbContext.Users.FirstOrDefaultAsync(x=>x.Id == receiverId);
 
-            // var file = await SaveFileAsync(dto.Image);
             var message = Message.NewMessage(
                 user.Id,
                 receiverId,
                 dto.Content,
                 DateTime.Now,
-                // dto.Image,
+                dto.Image,
                 dto.Latitude,
                 dto.Longitude,
                 user,
@@ -51,33 +52,35 @@ namespace FriendTagBackend.src.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetMessages([FromQuery] Guid userId)
+        public async Task<IActionResult> GetConversations()
         {
             var user = await _userService.CurrentUser(User);
-            var messagerId = new UserId(userId);
-           
-            var messages = await _dbContext.Messages.Where(x=>x.ReceiverId == messagerId).ToListAsync();
-           
-            return Ok(messages);
+            var usersIds = await _dbContext.Messages
+                                    .Where(x => x.SenderId == user.Id || x.ReceiverId == user.Id)
+                                    .Select(x=>x.SenderId == user.Id ? x.ReceiverId : x.SenderId) 
+                                    .Distinct()
+                                    .ToListAsync();
+            return Ok(usersIds);
         }
 
+        [HttpGet("conversation")]
+        [Authorize]
+        public async Task<IActionResult> GetMessages([FromQuery] Guid userId)
+        {
+            var user1 = await _userService.CurrentUser(User);
+            var user1Id = user1.Id;
+            var user2Id = new UserId(userId);
+            var messages = await _dbContext.Messages
+                .Where(m =>
+                    (m.SenderId == user1Id && m.ReceiverId == user2Id) ||
+                    (m.SenderId == user2Id && m.ReceiverId == user1Id)
+                )
+                .Include(m => m.Sender)
+                .OrderBy(m => m.SentAt)
+                .ToListAsync();
 
-        // public async Task<string> SaveFileAsync(IFormFile file)
-        // {
-        //     if (file == null || file.Length == 0)
-        //     {
-        //         throw new ArgumentException("No file provided.");
-        //     }
-
-        //     var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", file.FileName);
-
-        //     using (var fileStream = new FileStream(filePath, FileMode.Create))
-        //     {
-        //         await file.CopyToAsync(fileStream);
-        //     }
-
-        //     return filePath; 
-        // }
+            return Ok(messages);
+        }
 
     }
 

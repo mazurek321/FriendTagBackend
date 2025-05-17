@@ -5,7 +5,7 @@ namespace FriendTagBackend.src.Models.Event;
 public class Event{
     public Event(){}
     private Event(Guid id, UserId ownerId, String address, String city, 
-                double latitude, double longitude, DateOnly date, TimeOnly startTime, TimeOnly endTime,
+                double latitude, double longitude, DateOnly date, TimeOnly startTime, /*TimeOnly endTime,*/
                 bool isPrivate, int? minAge, int? maxAge, List<String>?imageUrls,
                 List<String>? tags, String title, String description,
                 EventStatus status
@@ -19,7 +19,7 @@ public class Event{
         Longitude = longitude;
         Date = date;
         StartTime = startTime;
-        EndTime = endTime;
+        // EndTime = endTime;
         Private = isPrivate;
         MinAge = minAge;
         MaxAge = maxAge;
@@ -37,7 +37,7 @@ public class Event{
     public double Longitude { get; private set; }
     public DateOnly Date { get; private set; }
     public TimeOnly StartTime { get; private set; }
-    public TimeOnly EndTime { get; private set; }
+    // public TimeOnly EndTime { get; private set; }
     public bool Private { get; private set; }
     public int? MinAge { get; private set; } 
     public int? MaxAge { get; private set; }
@@ -56,14 +56,14 @@ public class Event{
 
     public static Event NewEvent(
         UserId ownerId, String address, String city, 
-        double latitude, double longitude, DateOnly date, TimeOnly startTime, TimeOnly endTime,
+        double latitude, double longitude, DateOnly date, TimeOnly startTime, /*TimeOnly endTime,*/
         bool isPrivate, int? minAge, int? maxAge, List<String>?imageUrls,
         List<String>? tags, String title, String description
     )
     {
         return new Event(
             Guid.NewGuid(), ownerId, address, city, latitude, longitude, 
-            date, startTime, endTime, isPrivate, minAge, maxAge, 
+            date, startTime, /*endTime,*/ isPrivate, minAge, maxAge, 
             imageUrls, tags, title, 
             description, EventStatus.Planned
         );
@@ -75,7 +75,7 @@ public class Event{
         double longitude,
         DateOnly date,
         TimeOnly startTime,
-        TimeOnly endTime,
+        // TimeOnly endTime,
         bool isPrivate,
         int? minAge,
         int? maxAge,
@@ -90,7 +90,7 @@ public class Event{
         Longitude = longitude;
         Date = date;
         StartTime = startTime;
-        EndTime = endTime;
+        // EndTime = endTime;
         Private = isPrivate;
         MinAge = minAge;
         MaxAge = maxAge;

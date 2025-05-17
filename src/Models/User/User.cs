@@ -55,7 +55,7 @@ public class User
         Longitude = longitude;
     }
 
-    public void UpdateProfilePicture(string profilePicture)
+    public void UpdateProfilePicture(String profilePicture)
     {
         ProfilePicture = profilePicture;
     }

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FriendTagBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+99befd20a8acde5a9760cb38d9ff83c9970174bb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a36505c1cafb4b54cd3ca2a0eb99239e9a3ea2ca")]
 [assembly: System.Reflection.AssemblyProductAttribute("FriendTagBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FriendTagBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

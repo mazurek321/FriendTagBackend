@@ -10,7 +10,7 @@ public record EventDto
     public double Longitude { get; set; }
     public DateOnly Date { get; set; }
     public TimeOnly StartTime { get; set; }
-    public TimeOnly EndTime { get; set; }
+    // public TimeOnly EndTime { get; set; }
     public bool Private { get; set; }
     public int? MinAge { get; set; }
     public int? MaxAge { get; set; }
