@@ -38,8 +38,6 @@ namespace FriendTagBackend.src.Controllers
                 dto.Content,
                 DateTime.Now,
                 dto.Image,
-                dto.Latitude,
-                dto.Longitude,
                 user,
                 receiver
             );

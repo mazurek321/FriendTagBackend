@@ -41,7 +41,6 @@ public class UsersController : ControllerBase
         var lastname = new LastName(userDto.Lastname);
         var password = new Password(userDto.Password);
         var confirmPassword = new Password(userDto.ConfirmPassword);
-        var phone = string.IsNullOrEmpty(userDto.Phone) ? null : new Phone(userDto.Phone);
         var latitude = double.TryParse(userDto.Latitude, out var lat) ? (double?)lat : null;
         var longitude = double.TryParse(userDto.Longitude, out var lon) ? (double?)lon : null;
 
@@ -60,7 +59,7 @@ public class UsersController : ControllerBase
             longitude.Value,
             userDto?.ProfilePicture,
             userDto?.Description,
-            phone,
+            userDto.Phone,
             DateTime.UtcNow
         );
 

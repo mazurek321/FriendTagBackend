@@ -6,7 +6,7 @@ public class Message
 { 
     public Message(){}
     private Message(Guid id, UserId senderId, UserId receiverId, String content,
-                    DateTime sentAt, String? imageUrl, double? latitude, double? longitude,
+                    DateTime sentAt, String? imageUrl,
                     User.User sender, User.User receiver
     )
     {
@@ -16,8 +16,6 @@ public class Message
         Content = content;
         SentAt = sentAt;
         ImageUrl = imageUrl;
-        Latitude = latitude;
-        Longitude = longitude;
         Sender = sender;
         Receiver = receiver;
     }
@@ -27,16 +25,14 @@ public class Message
     public String Content { get; private set; }
     public DateTime SentAt {get; private set; }
     public String? ImageUrl { get; private set; }
-    public double? Latitude { get; private set; }
-    public double? Longitude { get; private set; }
     public User.User Sender { get; private set; }
     public User.User Receiver { get; private set; }
 
     public static Message NewMessage(UserId senderId, UserId receiverId, String content,
-                    DateTime sentAt, String? imageUrl, double? latitude, double? longitude,
+                    DateTime sentAt, String? imageUrl,
                     User.User sender, User.User receiver)
     {
         return new Message(Guid.NewGuid(), senderId, receiverId, content, sentAt, imageUrl,
-                                            latitude, longitude, sender, receiver); 
+                                            sender, receiver); 
     }
 }

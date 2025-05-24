@@ -8,7 +8,7 @@ public class User
         UserId id, Email email, Name name, LastName lastname, Password password,
         DateOnly birthday, 
         double latitude, double longitude, String? profilePicture, String? desc,
-        Phone phone, DateTime createdAt
+        String phone, DateTime createdAt
     ){
         Id = id;
         Email = email;
@@ -29,12 +29,11 @@ public class User
     public Name Name {get; private set; }
     public LastName LastName {get; private set; }
     public Password Password {get; private set; }
-    public Phone Phone { get; private set; }
+    public String Phone { get; private set; }
     public DateOnly Birthday { get; private set; }
     public double Latitude {get; private set;} 
     public double Longitude {get; private set;} 
     public String? ProfilePicture {get; private set;}
-    public List<String>?ImageUrls { get; private set; } 
     public String? Description {get; private set; }
     public DateTime CreatedAt{ get; private set; }
 
@@ -42,7 +41,7 @@ public class User
         Email email, Name name, LastName lastname, Password password,
         DateOnly birthday,
         double latitude, double longitude, String? profilePicture, String? desc,
-        Phone phone, DateTime createdAt
+        String phone, DateTime createdAt
     ){
         var id = new UserId(Guid.NewGuid());
         return new User(id, email, name, lastname, password, birthday, latitude, 

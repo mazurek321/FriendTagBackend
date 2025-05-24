@@ -48,6 +48,7 @@ namespace FriendTagBackend.src.Controllers
                 eventDto.Description
             );
 
+            request.AddAttendant(user);
             await _dbContext.Events.AddAsync(request);
             await _dbContext.SaveChangesAsync();
 
@@ -65,6 +66,10 @@ namespace FriendTagBackend.src.Controllers
             if (_event is null) throw new CustomException("Event not found.");
             if (_event.Private) throw new CustomException("This event is private. Ask owner for joining.");
 
+            var exists = await _dbContext.Events.Include(x => x.Attendants).AnyAsync(x => x.Attendants.Any(y=>y.UserId == user.Id));
+            if (exists)
+                throw new CustomException("You already attend this event.");
+                
             _event.AddAttendant(user);
             await _dbContext.SaveChangesAsync();
 
@@ -221,7 +226,15 @@ namespace FriendTagBackend.src.Controllers
             var guest = e.Attendants.FirstOrDefault(a => a.UserId == user.Id);
             if (guest is null) throw new CustomException("You are not a guest in this event.");
 
+            if (e.OwnerId == user.Id)
+                throw new CustomException("You cannot leave this event. You are the owner.");
+
             e.RemoveAttendant(user);
+            var invitationsToRemove = await _dbContext.Invitations
+                .Where(x => x.InvitedPerson == user.Id && x.EventId == e.Id)
+                .ToListAsync();
+
+            _dbContext.Invitations.RemoveRange(invitationsToRemove);
             await _dbContext.SaveChangesAsync();
 
             return NoContent();

@@ -134,3 +134,4 @@ C:\Users\mazur\StudioProjects\FriendTagBackend\bin\Debug\net9.0\runtimes\win\lib
 C:\Users\mazur\StudioProjects\FriendTagBackend\bin\Debug\net9.0\MySqlConnector.dll
 C:\Users\mazur\StudioProjects\FriendTagBackend\bin\Debug\net9.0\Pomelo.EntityFrameworkCore.MySql.dll
 C:\Users\mazur\StudioProjects\FriendTagBackend\obj\Debug\net9.0\FriendTagBackend.sourcelink.json
+C:\Users\mazur\StudioProjects\FriendTagBackend\bin\Debug\net9.0\FriendTagBackend.staticwebassets.runtime.json

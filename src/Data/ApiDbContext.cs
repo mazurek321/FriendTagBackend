@@ -43,8 +43,6 @@ public class ApiDbContext : DbContext
                 .IsRequired()
                 .HasMaxLength(200);
 
-            builder.Property(x=>x.Phone).HasConversion(Phone =>Phone.Value, value => new Phone(value));
-
             builder.Property(x=>x.CreatedAt).IsRequired();
         });
 

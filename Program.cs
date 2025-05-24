@@ -5,12 +5,16 @@ using Microsoft.IdentityModel.Tokens;
 using FriendTagBackend.src.Data;
 using FriendTagBackend.src.Controllers;
 using System.Text;
+using Microsoft.AspNetCore.Diagnostics;
+using FriendTagBackend.src.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.WebHost.UseUrls("http://0.0.0.0:5275");
 
+
 builder.Services.AddScoped<UserService>();
+
 
 builder.Services.AddDbContext<ApiDbContext>(options =>
     options.UseMySql(
@@ -88,6 +92,11 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+app.UseStaticFiles();
+
+app.UseMiddleware<ExceptionMiddleware>();
+
 
 app.UseCors("AllowAnyOrigin");
 app.UseAuthentication();

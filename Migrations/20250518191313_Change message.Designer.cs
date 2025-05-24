@@ -4,6 +4,7 @@ using FriendTagBackend.src.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FriendTagBackend.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    partial class ApiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250518191313_Change message")]
+    partial class Changemessage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -205,6 +208,9 @@ namespace FriendTagBackend.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ImageUrls")
+                        .HasColumnType("longtext");
 
                     b.Property<string>("LastName")
                         .IsRequired()

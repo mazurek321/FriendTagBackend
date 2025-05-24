@@ -1,0 +1,49 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\mazur\\StudioProjects\\FriendTagBackend\\wwwroot\\uploads\\messages\\069a9d68-4327-4b40-8ec0-1304aaec28e8.jpg",
+      "PackagePath": "staticwebassets\\uploads\\messages\\069a9d68-4327-4b40-8ec0-1304aaec28e8.jpg"
+    },
+    {
+      "Id": "C:\\Users\\mazur\\StudioProjects\\FriendTagBackend\\wwwroot\\uploads\\messages\\35e775c2-dffb-4a01-a7a6-79a9aeecc327.jpg",
+      "PackagePath": "staticwebassets\\uploads\\messages\\35e775c2-dffb-4a01-a7a6-79a9aeecc327.jpg"
+    },
+    {
+      "Id": "C:\\Users\\mazur\\StudioProjects\\FriendTagBackend\\wwwroot\\uploads\\messages\\ca0eb68d-720c-4a3d-9efe-fb5a68061f58.jpg",
+      "PackagePath": "staticwebassets\\uploads\\messages\\ca0eb68d-720c-4a3d-9efe-fb5a68061f58.jpg"
+    },
+    {
+      "Id": "C:\\Users\\mazur\\StudioProjects\\FriendTagBackend\\wwwroot\\uploads\\users\\ad41a6f4-9afc-407d-af78-ecac87b7f2d1\\profile.jpg",
+      "PackagePath": "staticwebassets\\uploads\\users\\ad41a6f4-9afc-407d-af78-ecac87b7f2d1\\profile.jpg"
+    },
+    {
+      "Id": "C:\\Users\\mazur\\StudioProjects\\FriendTagBackend\\wwwroot\\uploads\\users\\e07e33cb-d33a-412d-9c58-36f5023287ad\\profile.jpg",
+      "PackagePath": "staticwebassets\\uploads\\users\\e07e33cb-d33a-412d-9c58-36f5023287ad\\profile.jpg"
+    },
+    {
+      "Id": "C:\\Users\\mazur\\StudioProjects\\FriendTagBackend\\wwwroot\\uploads\\users\\fbb4dba5-4540-488c-8e42-d2de7912f26a\\profile.jpg",
+      "PackagePath": "staticwebassets\\uploads\\users\\fbb4dba5-4540-488c-8e42-d2de7912f26a\\profile.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.FriendTagBackend.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.FriendTagBackend.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.build.FriendTagBackend.props",
+      "PackagePath": "build\\FriendTagBackend.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildMultiTargeting.FriendTagBackend.props",
+      "PackagePath": "buildMultiTargeting\\FriendTagBackend.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildTransitive.FriendTagBackend.props",
+      "PackagePath": "buildTransitive\\FriendTagBackend.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

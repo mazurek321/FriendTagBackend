@@ -34,19 +34,30 @@ public class InvitationController : ControllerBase
         [FromQuery] Guid eventId, 
         [FromQuery] Guid userId)
     {
-         var user = await _userService.CurrentUser(User);
-         var _event = await _dbContext.Events.FirstOrDefaultAsync(x=>x.Id == eventId);
+        var user = await _userService.CurrentUser(User);
+        var _event = await _dbContext.Events.FirstOrDefaultAsync(x=>x.Id == eventId);
 
-         if(_event is null) throw new CustomException("Event not found.");
+        if(_event is null) throw new CustomException("Event not found.");
          var guest = new UserId(userId);
+         
+         bool isAlreadyAttendee = await _dbContext.EventAttendees
+                .AnyAsync(ea => ea.EventId == eventId && ea.UserId == user.Id);
+        
+        if (isAlreadyAttendee)
+            throw new CustomException("This user is already attending the event.");
 
-         if(_event.OwnerId != user.Id) throw new CustomException("You can't invite people.");
+        bool invitationExists = await _dbContext.Invitations
+            .AnyAsync(inv => inv.EventId == eventId && inv.InvitedPerson == guest);
 
+        if (invitationExists)
+            throw new CustomException("This user has already been invited.");
 
-         var request = Invitation.SendInvitation(eventId, guest);
+        if (_event.OwnerId != user.Id) throw new CustomException("You can't invite people.");
 
-         _dbContext.Invitations.AddAsync(request);
-         await _dbContext.SaveChangesAsync();
+        var request = Invitation.SendInvitation(eventId, guest);
+
+        _dbContext.Invitations.AddAsync(request);
+        await _dbContext.SaveChangesAsync();
 
         return Ok(request);
     }
@@ -61,8 +72,17 @@ public class InvitationController : ControllerBase
         if(_event is null) throw new CustomException("Event not found.");
         if(!_event.Private) throw new CustomException("Event is not private.");
 
-        var exists = await _dbContext.Invitations.AnyAsync(x=>x.EventId == _event.Id && x.InvitedPerson == user.Id);
-        if(exists) throw new CustomException("You already send a request to join this event.");
+         bool isAlreadyAttendee = await _dbContext.EventAttendees
+                .AnyAsync(ea => ea.EventId == eventId && ea.UserId == user.Id);
+        
+        if (isAlreadyAttendee)
+            throw new CustomException("This user is already attending the event.");
+
+        var exists = await _dbContext.Invitations
+            .AnyAsync(x=>x.EventId == _event.Id && x.InvitedPerson == user.Id && (x.Status == Invitation.InvitationStatus.Sent || x.Status == Invitation.InvitationStatus.Accepted));
+
+        if (exists)
+            throw new CustomException("You already send a request to join this event.");
 
         var request = Invitation.RequestInvitation(eventId, user.Id);
 
